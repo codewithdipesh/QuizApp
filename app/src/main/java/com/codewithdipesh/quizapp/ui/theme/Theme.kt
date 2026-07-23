@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 private val LightColorScheme = lightColorScheme(
     primary = Purple,
     onPrimary = Color.White,
-    primaryContainer = PurpleContainer,
     onPrimaryContainer = Purple,
     secondary = Purple,
     tertiary = Success,
@@ -23,13 +22,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = TextPrimaryLight,
     surface = SurfaceLight,
     onSurface = TextPrimaryLight,
-    surfaceVariant = SurfaceVariantLight,
-    surfaceContainer = SurfaceVariantLight,
-    surfaceContainerHigh = SurfaceHighLight,
     surfaceContainerHighest = SurfaceLight,
-    outline = BorderLight,
     error = Error,
-    errorContainer = ErrorContainer,
     onError = Color.White,
     tertiaryContainer = QuestionBorderLight
 )
@@ -37,21 +31,15 @@ private val LightColorScheme = lightColorScheme(
 private val DarkColorScheme = darkColorScheme(
     primary = PurpleDark,
     onPrimary = Color.White,
-    primaryContainer = PurpleContainerDark,
     onPrimaryContainer = Color.White,
     secondary = PurpleDark,
-    tertiary = Success,
+    tertiary = SuccessDark,
     background = BackgroundDark,
     onBackground = TextPrimaryDark,
     surface = SurfaceDark,
     onSurface = TextPrimaryDark,
-    surfaceVariant = SurfaceVariantDark,
-    surfaceContainer = SurfaceVariantDark,
-    surfaceContainerHigh = SurfaceHighDark,
     surfaceContainerHighest = SurfaceDark,
-    outline = BorderDark,
-    error = Error,
-    errorContainer = Color(0xFF572525),
+    error = ErrorDark,
     onError = Color.White,
     tertiaryContainer = QuestionBorderDark
 )
@@ -60,7 +48,7 @@ private val DarkColorScheme = darkColorScheme(
 fun QuizAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

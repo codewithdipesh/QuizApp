@@ -47,25 +47,23 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun onAnswerSelected(answerIndex: Int) {
+    fun onAnswerSelected(questionIndex: Int, answerIndex: Int) {
+        if (questionIndex in state.value.revealedQuestions) return
 
-        val currentIndex = state.value.currentQuestionIndex
-        if (currentIndex in state.value.revealedQuestions) return
-
-        val question = state.value.questions[currentIndex]
+        val question = state.value.questions[questionIndex]
         val isCorrect = question.correctOptionIndex == answerIndex
 
         _state.update {
-
             val newStreak = if (isCorrect) it.currentStreak + 1 else 0
 
             it.copy(
-                selectedAnswers = it.selectedAnswers + (currentIndex to answerIndex),
-                revealedQuestions = it.revealedQuestions + currentIndex,
-                skippedQuestions = it.skippedQuestions - currentIndex,
+                selectedAnswers = it.selectedAnswers + (questionIndex to answerIndex),
+                revealedQuestions = it.revealedQuestions + questionIndex,
+                skippedQuestions = it.skippedQuestions - questionIndex,
                 score = if (isCorrect) it.score + 10 else it.score,
                 currentStreak = newStreak,
-                longestStreak = maxOf(it.longestStreak, newStreak)
+                longestStreak = maxOf(it.longestStreak, newStreak),
+                currentQuestionIndex = questionIndex // Sync navigation to the answered question
             )
         }
     }
@@ -80,13 +78,26 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun skipQuestion() {
-        val currentQuestionIndex = _state.value.currentQuestionIndex
+    fun skipQuestion(questionIndex: Int) {
         _state.update {
             it.copy(
-                skippedQuestions = it.skippedQuestions.plus(currentQuestionIndex),
-                selectedAnswers = _state.value.selectedAnswers.plus(currentQuestionIndex  to -1 ),
-                currentStreak = 0
+                skippedQuestions = it.skippedQuestions.plus(questionIndex),
+                selectedAnswers = it.selectedAnswers.plus(questionIndex to -1),
+                currentStreak = 0,
+                currentQuestionIndex = questionIndex // Sync navigation to the skipped question
+            )
+        }
+        nextQuestion()
+    }
+
+    private fun nextQuestion() {
+        goToQuestion(state.value.currentQuestionIndex + 1)
+    }
+
+    fun restartQuiz() {
+        _state.update {
+            QuizState(
+                questions = it.questions, isLoading = false
             )
         }
     }

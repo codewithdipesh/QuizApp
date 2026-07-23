@@ -14,13 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.codewithdipesh.quizapp.data.feedback.haptic.HapticManager
+import com.codewithdipesh.quizapp.data.feedback.sound.SoundManager
 import com.codewithdipesh.quizapp.ui.quiz.QuizScreen
 import com.codewithdipesh.quizapp.ui.quiz.QuizViewModel
 import com.codewithdipesh.quizapp.ui.theme.QuizAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import jakarta.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
+    @Inject lateinit var soundManager: SoundManager
+    @Inject lateinit var hapticManager: HapticManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,7 +42,9 @@ class MainActivity : ComponentActivity() {
                     onAnswerClick = quizViewModel::onAnswerSelected,
                     onSkip = quizViewModel::skipQuestion,
                     onPageChanged = quizViewModel::goToQuestion,
-                    onRestartQuiz = { }
+                    onRestartQuiz = quizViewModel::restartQuiz,
+                    soundManager = soundManager,
+                    hapticManager = hapticManager
                 )
             }
         }
