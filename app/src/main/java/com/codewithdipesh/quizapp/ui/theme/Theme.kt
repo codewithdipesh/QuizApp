@@ -9,28 +9,51 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val LightColorScheme = lightColorScheme(
+    primary = Purple,
+    onPrimary = Color.White,
+    primaryContainer = PurpleContainer,
+    onPrimaryContainer = Purple,
+    secondary = Purple,
+    tertiary = Success,
+    background = BackgroundLight,
+    onBackground = TextPrimaryLight,
+    surface = SurfaceLight,
+    onSurface = TextPrimaryLight,
+    surfaceVariant = SurfaceVariantLight,
+    surfaceContainer = SurfaceVariantLight,
+    surfaceContainerHigh = SurfaceHighLight,
+    surfaceContainerHighest = SurfaceLight,
+    outline = BorderLight,
+    error = Error,
+    errorContainer = ErrorContainer,
+    onError = Color.White,
+    tertiaryContainer = QuestionBorderLight
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+private val DarkColorScheme = darkColorScheme(
+    primary = PurpleDark,
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primaryContainer = PurpleContainerDark,
+    onPrimaryContainer = Color.White,
+    secondary = PurpleDark,
+    tertiary = Success,
+    background = BackgroundDark,
+    onBackground = TextPrimaryDark,
+    surface = SurfaceDark,
+    onSurface = TextPrimaryDark,
+    surfaceVariant = SurfaceVariantDark,
+    surfaceContainer = SurfaceVariantDark,
+    surfaceContainerHigh = SurfaceHighDark,
+    surfaceContainerHighest = SurfaceDark,
+    outline = BorderDark,
+    error = Error,
+    errorContainer = Color(0xFF572525),
+    onError = Color.White,
+    tertiaryContainer = QuestionBorderDark
 )
 
 @Composable
@@ -45,14 +68,13 @@ fun QuizAppTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         content = content
     )
 }
